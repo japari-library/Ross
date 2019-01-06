@@ -12,7 +12,23 @@ namespace Ross {
         [JsonProperty("playlist")]
         public Playlist Playlist { get; set; }
 
+        [JsonProperty("binding")]
+        public Binding Binding { get; set; }
+    }
 
+    public class Binding
+    {
+        [JsonProperty("serverID")]
+        public ulong BindedServer { get; set; }
+
+        [JsonProperty("channelID")]
+        public ulong BindedChannel { get; set; }
+
+        [JsonProperty("usePlaylist")]
+        public string PlaylistName { get; set; }
+
+        [JsonProperty("loop")]
+        public bool Loop { get; set; }
     }
 
     public class Playlist

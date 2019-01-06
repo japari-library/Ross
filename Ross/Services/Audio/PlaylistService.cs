@@ -13,8 +13,8 @@ namespace Ross.Services.Audio
     public class PlaylistService
     {
         private List<string> PathList = new List<string>();
-
-        public bool Loop { get; private set; }
+ 
+        public bool Loop { get; set; }
 
         public bool IsPlaying { get; private set; }
 
@@ -23,14 +23,19 @@ namespace Ross.Services.Audio
             if (File.Exists(path)) PathList.Add(path);
         }
 
+        public void AddFromPlaylistDirectory(string path)
+        {
+            List<DirectoryInfo> playlistDirectory = new DirectoryInfo(RossConfig.Root.Playlist.PlaylistDirectory).GetDirectories().ToList();
+            foreach (var file in playlistDirectory.Where(p => p.Name == path).First().GetFiles())
+            {
+                AddPath(file.FullName);
+            }
+
+        }
+
         public void RemovePath(string path)
         {
             PathList.Remove(PathList.Where(p => p == path).First());
-        }
-
-        public void ToggleLoop()
-        {
-            Loop = !Loop;
         }
 
         public void Stop()

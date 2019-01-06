@@ -2,12 +2,13 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+using Ross;
 using Ross.Services.Audio;
 using Serilog;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Ross;
+
 public class Program
 {
     private CommandService commands;
@@ -62,6 +63,19 @@ public class Program
             await audioService.JoinVoiceChannel(guild, guild.CurrentUser.VoiceChannel);
             await audioService.LeaveVoiceChannel(guild);
             Log.Information($"Successfully disconnected the bot from the VC in {guild.Id}!");
+        }
+
+        if (RossConfig.Root.Binding.BindedChannel > 0 && RossConfig.Root.Binding.BindedServer == guild.Id)
+        {
+
+            Binding bindingConfig = RossConfig.Root.Binding;
+            Log.Information($"Joining {bindingConfig.BindedChannel} in {guild.Id} due to binding.");
+            SocketVoiceChannel voiceChannel = guild.GetVoiceChannel(RossConfig.Root.Binding.BindedChannel);
+            await audioService.JoinVoiceChannel(guild, voiceChannel);
+            var playlist = audioService.GetPlaylist(guild);
+            playlist.AddFromPlaylistDirectory(RossConfig.Root.Binding.PlaylistName);
+            playlist.Loop = bindingConfig.Loop;
+            await Task.Run(() => playlist.StartPlaylist(audioService, guild, this.client)).ConfigureAwait(false);
         }
     }
 

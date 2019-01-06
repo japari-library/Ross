@@ -3,6 +3,12 @@
     "token": "STRIPPED"
   },
   "playlist": {
-    "playlistDirectory":  "playlist"
+    "playlistDirectory": "playlist"
+  },
+  "binding": {
+    "serverID":  0,
+    "channelID": 0,
+    "usePlaylist": "playlistName",
+    "loop": false
   }
 }

@@ -34,13 +34,18 @@ namespace Ross.Modules.Audio
         public async Task StartPlaylist(string playlistName)
         {
             List<DirectoryInfo> playlistDirectory = new DirectoryInfo(PlaylistDirectory).GetDirectories().ToList();
-            if (!playlistDirectory.Any(p => p.Name == playlistName)) return;
-            if (!audioService.IsGuildConnected(Context.Guild)) await audioService.JoinVoiceChannel(Context.Guild, (Context.User as IVoiceState).VoiceChannel).ConfigureAwait(false);
-            var playlistService = audioService.GetPlaylist(Context.Guild);
-            foreach (var file in playlistDirectory.Where(p => p.Name == playlistName).First().GetFiles())
+            if (!playlistDirectory.Any(p => p.Name == playlistName))
             {
-                playlistService.AddPath(file.FullName);
-            }
+                await ReplyAsync($"{playlistName} does not exist in the playlist folder!");
+                return;
+            };
+
+            if (!audioService.IsGuildConnected(Context.Guild))
+                await audioService.JoinVoiceChannel(Context.Guild, (Context.User as IVoiceState).VoiceChannel).ConfigureAwait(false);
+
+            var playlistService = audioService.GetPlaylist(Context.Guild);
+            playlistService.AddFromPlaylistDirectory(playlistName);
+
             var client = (DiscordSocketClient)this.Context.Client;
             await playlistService.StartPlaylist(audioService, Context.Guild, client);
         }
