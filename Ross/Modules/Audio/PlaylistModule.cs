@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 namespace Ross.Modules.Audio
 {
     [Group("audio playlist")]
+    [RequireUserPermission(GuildPermission.MoveMembers, Group = "p", ErrorMessage = "This command requires Move Member permission!")]
+    [RequireContext(ContextType.Guild)]
+    [RequireOwner(Group = "p")]
     public class PlaylistModule : ModuleBase
     {
         private readonly AudioService audioService;

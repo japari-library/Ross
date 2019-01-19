@@ -27,7 +27,7 @@ namespace Ross.Services.Audio
         private string EncodeFile(string path)
         {
             Log.Information($"[Encoder] Encoding {path}...");
-            var tempPath = Path.GetTempPath();
+            var tempPath = "./tmp";
             var tempFilename = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Guid.NewGuid().ToString()));
             var outputPath = Path.Combine(tempPath, $"{tempFilename}.raw");
             Process process = Process.Start(new ProcessStartInfo

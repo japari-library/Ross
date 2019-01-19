@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -18,5 +18,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if not exist $(OutDir)\publish\playlist mkdir $(OutDir)\publish\playlist" />
+    <Exec Command="if not exist $(OutDir)\publish\tmp mkdir $(OutDir)\publish\tmp" />
+  </Target>
 </Project>

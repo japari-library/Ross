@@ -52,7 +52,7 @@ public class Program
         client.MessageReceived += HandleCommand;
         // Discover all of the commands in this assembly and load them.
         await commands.AddModulesAsync(Assembly.GetEntryAssembly(), services);
-    }
+    }   
 
     public async Task OnGuildReady(SocketGuild guild)
     {
@@ -103,7 +103,7 @@ public class Program
         {
             if (result.Error != CommandError.UnknownCommand)
             {
-                await context.Channel.SendMessageAsync(result.ErrorReason);
+                Log.Information(result.ErrorReason);
             }
         }
     }
