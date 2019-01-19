@@ -26,6 +26,7 @@ namespace Ross.Services.Audio
         {
             if (IsGuildConnected(guild))
             {
+                Log.Information($"{guild.Id} is already connected!");
                 return;
             }
 

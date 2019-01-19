@@ -32,10 +32,11 @@ namespace Ross.Services.Audio
             var outputPath = Path.Combine(tempPath, $"{tempFilename}.raw");
             Process process = Process.Start(new ProcessStartInfo
             {
-                FileName = "ffmpeg.exe",
+                FileName = "ffmpeg",
                 Arguments = $"-hide_banner -loglevel panic -i \"{path}\" -ac 2 -f s16le -b:a 96k -bufsize 100k -ar 48000 \"{outputPath}\" ",
                 UseShellExecute = false,
-                RedirectStandardOutput = true
+                RedirectStandardOutput = true,
+                WorkingDirectory = "./"
             });
             process.WaitForExit();
             Log.Information($"[Encoder] Encoded {path}!");

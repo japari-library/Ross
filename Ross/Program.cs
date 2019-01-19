@@ -65,9 +65,11 @@ public class Program
             Log.Information($"Successfully disconnected the bot from the VC in {guild.Id}!");
         }
 
+        // shhhh this is not a proper fix, i'm aware 
+        await Task.Delay(200);
+
         if (RossConfig.Root.Binding.BindedChannel > 0 && RossConfig.Root.Binding.BindedServer == guild.Id)
         {
-
             Binding bindingConfig = RossConfig.Root.Binding;
             Log.Information($"Joining {bindingConfig.BindedChannel} in {guild.Id} due to binding.");
             SocketVoiceChannel voiceChannel = guild.GetVoiceChannel(RossConfig.Root.Binding.BindedChannel);
